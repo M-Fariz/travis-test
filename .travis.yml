@@ -7,6 +7,10 @@ env:
     - ANDROID_BUILD_TOOLS_VERSION=29.0.2
 
 android:
+  licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
   components:
     - tools
     - platform-tools
@@ -19,13 +23,9 @@ android:
     - extra-google-m2repository
     - extra-android-m2repository
     - addon-google_apis-google-$ANDROID_API_LEVEL
-licenses:
-  - 'android-sdk-preview-license-.+'
-  - 'android-sdk-license-.+'
-  - 'google-gdk-license-.+'
+
 before_script:
   - yes | sdkmanager "platforms;android-29"
-
 script:
   - chmod +x ./gradlew
   - ./gradlew test
@@ -34,10 +34,10 @@ script:
 deploy:
   provider: releases
   api_key: $GITHUB_API_KEY
-  file: $TRAVIS_BUILD_DIR/app/build/output/apk/release/app-release.apk
+  file: $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/app-release.apk
   skip_cleanup: true
   name: dev-build-$TRAVIS_TAG
-  body: automatic build of $TRAVIS_BRANCH ($TRAVIS_COMMIT) built by Travis CI on $(date +'%F %T %Z').
+  body: Automatic build of $TRAVIS_BRANCH ($TRAVIS_COMMIT) built by Travis CI on $(date +'%F %T %Z').
   prereleases: true
   overwrite: true
   target_commitish: $TRAVIS_COMMIT
